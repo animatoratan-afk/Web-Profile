@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Lato';
+    }
+    .hero-section {
+        min-height: 100vh;
+        background: url("fotomiss.png") center / cover no-repeat;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-section::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to bottom,
+            rgba(87, 0, 77, 0.95) 0%,
+            rgba(87, 0, 42, 0.75) 40%,
+            rgba(78, 0, 87, 0.55) 70%,
+            rgba(59, 0, 87, 0.45) 100%
+        );
+        z-index: 1;
+    }
+
+    .hero-section h1 {
+        font-weight: 800;
+        letter-spacing: 2px;
+        line-height: 1.05;
+        text-transform: uppercase;
+        font-size: clamp(3rem, 6vw, 5rem);
+    }
+
+    .hero-section .container {
+        padding-top: 80px;
+    }
+
+   
+
+    .wave {
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        line-height: 0;
+        z-index: 2;
+    }
+
+    .wave svg {
+        width: 100%;
+        height: 110px;
+    }
+
+    .mdda {
+        background: linear-gradient(
+            to bottom,
+                        #ffffff,
+
+            rgba(87, 0, 77, 0.95)
+        );
+    }
+
+    .wave path {
+        animation: waveMove 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes waveMove {
+        from { transform: translateX(0); }
+        to { transform: translateX(-40px);}
+    }
+
+    #overlayMenu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            to bottom,
+            rgba(87, 0, 77, 0.95) 0%,
+            rgba(87, 0, 42, 0.75) 40%,
+            rgba(78, 0, 87, 0.55) 70%,
+            rgba(59, 0, 87, 0.45) 100%
+        );
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1050;
+    }
+
+    #overlayMenu .overlay-content a img {
+        width: 120px;
+        margin: 20px;
+        border-radius: 10px;
+        transition: transform 0.3s;
+    }
+
+    #overlayMenu .overlay-content a img:hover {
+        transform: scale(1.05);
+    }
+
+    #closeOverlay {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 40px;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .pilihan-img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #fff;
+    }
+
+    .pilihan {
+        display: inline-block;
+        text-align: center;
+        margin: 10px;
+    }
+
+    .pilihan p {
+        margin-top: 5px;
+        color: #fff;
+
+    }
+
+    .nav-item {
+        text-decoration: none;
+    }
+
+    .logo-nav {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .text-pink-gradient {
+        background: linear-gradient(
+            to right,
+            #ff7eb3,
+            #ff4f9a,
+            #c850c0
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .scroll-item {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.8s ease;
+    }
+
+    .scroll-item.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .bg-pink {
+        background-color: #ff7eb3;
+    }
+    .delay-1 {
+        transition-delay: 0.1s;
+    }
+
+    .delay-2 {
+        transition-delay: 0.25s;
+    }
+
+    .delay-3 {
+        transition-delay: 0.4s;
+    }
+
+    .fade-left {
+        transform: translateX(-40px);
+    }
+
+    .fade-right {
+        transform: translateX(40px);
+    }
+    
+    .scroll-item.show.fade-left {
+        transform: translateX(0);
+    }
+
+    .scroll-item.show.fade-right {
+        transform: translateX(0);
+    }
+
+    .img-wrapper {
+        width: 100%;
+        height: 280px;
+        overflow: hidden;
+        border-radius: 20px;
+        aspect-ratio: 4 / 3;
+    }
+
+    .img-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        animation: zooLoop 8s ease-in-out infinite;
+        transition: transform 0.6s ease;
+
+    }
+
+    .img-wrapper:hover img {
+        transform: scale(1.15);
+    }
+
+
+    /* untuk gambar slider */
+    .carousel-item {
+        transition: transform 0.8s ease-in-out;
+    }
+
+    #autoScrollSlider {
+        cursor: grab;
+    }
+
+    #autoScrollSlider:active {
+        cursor: grabbing;
+    }
+
+
+    @media (min-width: 992px) {
+        #overlayMenu {
+            display: none !important;
+        }
+
+        .img-wrapper {
+            
+        }
+    }
+
+    @keyframes zoomLoop {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.08);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .footer span{
+        color: #bca6b0;
+    }
+
+    .footer .nav-link {
+        color: #bca6b0;
+        font-weight: 500;
+        transition: transform 0.3s, color 0.3s;
+    }
+
+    .footer .nav-link:hover {
+        color: #ff7eb3;
+        transform: translateY(-3px);
+    }
+
+    .footer-icon {
+        color: #bca6b0;
+        font-size: 1.4rem;
+        transition: transform 0.3s, color 0.3s;
+    }
+
+    .footer-icon:hover {
+        color: #ff7eb3;
+        transform: translateY(-3px);
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .card:hover .card-title {
+        color: #fff;
+    }
+
+    .card:hover .card-text {
+        color: #f0e1e5;
+    }
+
+    .text-with-line {
+        position: relative;
+        display: inline-block;
+        padding-left: 20px;
+        color: #fff;
+    }
+
+    .text-with-line::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        text-align: center;
+        background-color: #fff;
+    }
+
+    .img-fluid {
+        width: 100%;
+    }
+
+</style>
+</head>
+<body>
+
+   
+        <!-- Navbar -->
+         <nav class="navbar navbar-dark mdda">
+  <div class="container-fluid d-flex align-items-center">
+    <a class="navbar-brand" href="#"><h1 class="text-pink-gradient">Miss Dinda</h1></a>
+
+    <!-- untuk hamburger di hp-->
+     <div class="d-flex align-items-center d-lg-none">
+     <button class="navbar-toggler d-lg-none" type="button" id="hamburgerBtn">
+        <span class="navbar-toggler-icon"></span>
+     </button>
+        <a href="https://www.instagram.com/ddwimanda/" class="nav-item"><i class="bi bi-instagram ms-3"></i></a>
+        <a href="https://wa.me/6285697508616" class="nav-item"><i class="bi bi-whatsapp ms-3"></i></a>
+     </div>
+   <!-- navbar untuk dekstop -->
+    <ul class="nav d-none d-lg-flex ms-auto">
+        <li class="nav-item"><a class="nav-link text-white" href="missdinda.html">Beranda</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="aboutme.html">Tentang Saya</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="aktifitas.html">Aktivitas</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="kontak.html">Kontak</a></li>
+        <li class="nav-item ms-3"><a href="https://www.instagram.com/ddwimanda/" class="footer-icon"><i class="bi bi-instagram"></i></a></li>
+        <li class="nav-item ms-3"><a href="https://wa.me/6285697508616" class="footer-icon"><i class="bi bi-whatsapp"></i></a></li>
+    </ul>
+  </div>
+</nav>
+
+<div id="overlayMenu">
+    <span id="closeOverlay">&times;</span>
+    <div class="overlay-content">
+        <div class="pilihan ">
+            <img src="https://cdn-icons-png.freepik.com/512/3682/3682301.png" alt="Pilihan 1" class="pilihan-img">
+            <a href="missdinda.html" class="text-decoration-none"><p>Beranda</p></a>
+        </div>
+
+        <div class="pilihan">
+            <img src="https://cdn-icons-png.freepik.com/512/3682/3682301.png" alt="Pilihan 1" class="pilihan-img">
+            <a href="aboutme.html" class="text-decoration-none"><p>Tentang Saya</p></a>
+        </div>
+
+        <div class="pilihan">
+            <img src="https://cdn-icons-png.freepik.com/512/3682/3682301.png" alt="Pilihan 1" class="pilihan-img">
+            <a href="aktifitas.html" class="text-decoration-none"><p>Aktifitas</p></a>
+        </div>
+
+        <div class="pilihan">
+            <img src="https://cdn-icons-png.freepik.com/512/3682/3682301.png" alt="Pilihan 1" class="pilihan-img">
+            <a href="kontak.html" class="text-decoration-none"><p>Kontak</p></a>
+        </div>
+    </div>
+    
+</div>
+
+<!-- Gambar -->
+     <section class="hero-section d-flex align-items-center text-center text-white">
+        <div class="container position-relative">
+            <h1 class="fw-bold display-4 scroll-item">
+                Hello Guys!!<br />My Name Dinda Dwimanda W, S.I.Kom, M.I.Kom, CPT, CPS, CSPRA, CDMP, CMSE, CHNLPT
+            </h1>
+
+
+
+        </div>
+
+        <div class="wave">
+  <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+
+    <!-- layer 1 (belakang) -->
+   <path fill="rgba(255,255,255,0.35)"
+      d="M0,200 
+         L50,80 
+         C120,30,200,100,280,50 
+         C360,10,420,130,500,60 
+         C580,0,650,140,720,50 
+         C800,20,870,120,940,40 
+         C1020,10,1100,150,1180,60 
+         C1260,30,1340,110,1400,70 
+         L1440,200 
+         L0,200 
+         Z" />
+
+    <!-- layer 2 (tengah) -->
+    <path fill="rgba(255,255,255,0.65)"
+      d="M0,190 
+         L60,50 
+         C120,10,180,160,240,40 
+         C300,-20,360,170,420,30 
+         C480,-40,540,160,600,50 
+         C660,-20,720,180,780,40 
+         C840,-30,900,170,960,60 
+         C1020,10,1080,180,1140,40 
+         C1200,-10,1260,170,1320,30 
+         C1380,-20,1440,190,1440,95 
+         L1440,140 
+         L0,140Z" />
+
+    <!-- layer 3 (depan) -->
+  <path fill="#ffffff"
+      d="M0,140 
+         L40,100 
+         C120,60,200,130,280,90 
+         C360,50,420,140,500,70 
+         C580,20,660,150,740,60 
+         C820,10,900,160,980,80 
+         C1060,40,1140,130,1220,50 
+         C1300,20,1380,120,1440,140 
+         L1440,140 
+         L0,140Z" />
+
+
+
+  </svg>
+
+  
+</div>
+     </section>
+
+     <!-- isi profile -->
+      <section class="jumbotron text-center scroll-item mt-5">
+    <img src="profil.png" alt="Miss Dinda" width="200" 
+    class="rounded-circle img-thumbnail" />
+  <h1 class="display-4 text-pink-gradient">Dinda Dwimanda W, S.I.Kom, M.I.Kom, CPT, CPS, CSPRA, CDMP, CMSE, CHNLPT</h1>
+  <p class="lead">MC • Public Speaker •
+Experienced in MarComm •
+Brand • PR & Partnership •
+Guest Lecture • People
+Development •
+Communication Trainer</p>
+
+</section>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ff7eb3" fill-opacity="1" d="M0,224L21.8,213.3C43.6,203,87,181,131,149.3C174.5,117,218,75,262,90.7C305.5,
+    107,349,181,393,208C436.4,235,480,213,524,176C567.3,
+    139,611,85,655,96C698.2,107,742,181,785,176C829.1,171,873,85,916,80C960,75,1004,149,1047,202.7C1090.9,256,
+    1135,288,1178,298.7C1221.8,309,1265,299,1309,250.7C1352.7,203,1396,117,1418,74.7L1440,32L1440,320L1418.2,320C1396.4,
+    320,1353,320,1309,320C1265.5,320,1222,320,1178,320C1134.5,320,1091,320,1047,320C1003.6,320,960,320,916,320C872.7,320,
+    829,320,785,320C741.8,320,698,320,655,320C610.9,320,567,320,524,320C480,
+    320,436,320,393,320C349.1,320,305,320,262,320C218.2,320,175,320,131,320C87.3,320,44,320,22,320L0,320Z"></path></svg>
+
+<section class="bg-pink p-0">
+  <div class="row align-items-start">
+      <div class="bg-pink scroll-item">
+        <div class="text-center">
+    <h2 class="text-white text-with-line fw-bold">My Activity</h2>
+  </div>
+    <div class="container scroll-item">
+  <div class="row g-4 mt-3">
+    
+    <!-- card 1 -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card img-wrapper">
+    <img src="1.png" class="d-block w-100" alt="">
+  </div>
+    </div>
+    
+    <!-- card 2 -->
+    <div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="2.png" class="d-block w-100" alt="">
+  </div>
+</div>
+
+  <!-- CARD 3 -->
+    <div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="3.png" class="d-block w-100" alt="">
+  </div>
+</div>
+
+<!-- card 4 -->
+ <div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="4.png" class="d-block w-100" alt="">
+  </div>
+</div>
+
+<!-- card 5 -->
+<div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="5.png" class="d-block w-100" alt="">
+  </div>
+</div>
+
+<div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="6.png" class="d-block w-100" alt="">
+  </div>
+</div>
+  </div>
+  </div>
+      </div>
+      <section class="bg-white">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ff7eb3" fill-opacity="1" d="M0,224L21.8,202.7C43.6,181,87,139,131,149.3C174.5,160,218,224,262,234.7C305.5,245,349,203,393,165.3C436.4,128,480,96,524,96C567.3,96,611,128,655,128C698.2,128,742,96,785,85.3C829.1,75,873,85,916,101.3C960,117,1004,139,1047,170.7C1090.9,203,1135,245,1178,245.3C1221.8,245,1265,203,1309,165.3C1352.7,128,1396,96,1418,80L1440,64L1440,0L1418.2,0C1396.4,0,1353,0,1309,0C1265.5,0,1222,0,1178,0C1134.5,0,1091,0,1047,0C1003.6,0,960,0,916,0C872.7,0,829,0,785,0C741.8,0,698,0,655,0C610.9,0,567,0,524,0C480,0,436,0,393,0C349.1,0,305,0,262,0C218.2,0,175,0,131,0C87.3,0,44,0,22,0L0,0Z"></path></svg>
+<div class="embed-responsive embed-responsive-16by9 text-center p-4">
+    <h1 class="fw-bold text-pink-gradient scroll-item">Pelatihan Pelaku UMKM</h1>
+  <div class="container scroll-item">
+  <div class="row g-4 mt-3">
+    
+    <!-- card 1 -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card img-wrapper">
+    <img src="l.png" class="d-block w-100" alt="">
+  </div>
+    </div>
+    
+    <!-- card 2 -->
+    <div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="m.png" class="d-block w-100" alt="">
+  </div>
+</div>
+
+  <!-- CARD 3 -->
+    <div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="n.png" class="d-block w-100" alt="">
+  </div>
+</div>
+
+<!-- card 4 -->
+ <div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="o.png" class="d-block w-100" alt="">
+  </div>
+</div>
+
+<!-- card 5 -->
+<div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="p.png" class="d-block w-100" alt="">
+  </div>
+</div>
+
+<div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="q.png" class="d-block w-100" alt="">
+  </div>
+</div>
+
+<div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="r.png" class="d-block w-100" alt="">
+  </div>
+</div>
+
+<div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="s.png" class="d-block w-100" alt="">
+  </div>
+</div>
+
+  </div>
+  </div>
+
+  <h2 class="fw-bold text-pink-gradient scroll-item mt-5">Pertemuan dengan HIPMI</h2>
+  <div class="container scroll-item">
+  <div class="row g-4 mt-3">
+    
+    <!-- card 1 -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card img-wrapper">
+    <img src="t.png" class="d-block w-100" alt="">
+  </div>
+    </div>
+    
+    <!-- card 2 -->
+    <div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="u.png" class="d-block w-100" alt="">
+  </div>
+</div>
+
+<div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="v.png" class="d-block w-100" alt="">
+  </div>
+</div>
+
+<div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="w.png" class="d-block w-100" alt="">
+  </div>
+</div>
+
+<div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="x.png" class="d-block w-100" alt="">
+  </div>
+</div>
+
+<div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="y.png" class="d-block w-100" alt="">
+  </div>
+</div>
+
+<div class="col-12 col-md-6 col-lg-4">
+     
+        <div class="card img-wrapper">
+    <img src="z.png" class="d-block w-100" alt="">
+  </div>
+</div>
+
+  </div>
+  </div>
+</div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ff7eb3" fill-opacity="1" d="M0,160L21.8,181.3C43.6,203,87,245,131,229.3C174.5,213,218,139,262,96C305.5,53,349,43,393,80C436.4,117,480,203,524,197.3C567.3,192,611,96,655,80C698.2,64,742,128,785,154.7C829.1,181,873,171,916,181.3C960,192,1004,224,1047,208C1090.9,192,1135,128,1178,128C1221.8,128,1265,192,1309,208C1352.7,224,1396,192,1418,176L1440,160L1440,320L1418.2,320C1396.4,320,1353,320,1309,320C1265.5,320,1222,320,1178,320C1134.5,320,1091,320,1047,320C1003.6,320,960,320,916,320C872.7,320,829,320,785,320C741.8,320,698,320,655,320C610.9,320,567,320,524,320C480,320,436,320,393,320C349.1,320,305,320,262,320C218.2,320,175,320,131,320C87.3,320,44,320,22,320L0,320Z"></path></svg>
+  </section>
+  <!-- Gambar Slider -->
+   <h3 class="text-white fw-bold ms-3 mt-3">MyDailyActivity</h3>
+   <div id="autoScrollSlider" 
+        class="carousel slide mt-4" 
+        data-bs-ride="carousel"
+        data-bs-interval="3000"
+        data-bs-touch="true"
+        data-bs-pause="false">
+    <div class="carousel-inner">
+  <div class="carousel-item active">
+    <div class="row g-3">
+        <div class="col-4">  
+  <div class=" img-wrapper">
+    <img src="a.png" class="d-block w-100" alt="">
+  </div>
+    </div>
+
+    <div class="col-4">  
+  <div class=" img-wrapper">
+    <img src="b.png" class="d-block w-100" alt="">
+  </div>
+    </div>
+
+
+    <div class="col-4">  
+  <div class=" img-wrapper">
+    <img src="c.png" class="d-block w-100" alt="">
+  </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- slide 2 -->
+    <div class="carousel-item">
+    <div class="row g-3">
+    <div class="col-4">  
+  <div class=" img-wrapper">
+    <img src="d.png" class="d-block w-100" alt="">
+  </div>
+    </div>
+
+    <div class="col-4">  
+  <div class=" img-wrapper">
+    <img src="e.png" class="d-block w-100" alt="">
+  </div>
+    </div>
+     
+    <div class="col-4">  
+  <div class=" img-wrapper">
+    <img src="f.png" class="d-block w-100" alt="">
+  </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- slide 3 -->
+     <div class="carousel-item">
+    <div class="row g-3">
+    <div class="col-4">  
+  <div class=" img-wrapper">
+    <img src="g.png" class="d-block w-100" alt="">
+  </div>
+    </div>
+
+    <div class="col-4">  
+  <div class=" img-wrapper">
+    <img src="h.png" class="d-block w-100" alt="">
+  </div>
+    </div>
+
+    <div class="col-4">  
+  <div class=" img-wrapper">
+    <img src="i.png" class="d-block w-100" alt="">
+  </div>
+    </div>
+
+
+    </div>
+   </div>
+  </div>
+  </div>
+<!-- End Gambar slider -->
+  
+     </section>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+  <path fill="#ff7eb3" fill-opacity="1" d="M0,128L17.1,122.7C34.3,117,69,107,103,117.3C137.1,128,171,160,206,144C240,128,274,64,309,37.3C342.9,11,377,21,411,58.7C445.7,96,480,160,514,181.3C548.6,203,583,181,617,192C651.4,203,686,245,720,218.7C754.3,192,789,96,823,96C857.1,96,891,192,926,208C960,224,994,160,1029,117.3C1062.9,75,1097,53,1131,42.7C1165.7,32,1200,32,1234,80C1268.6,128,1303,224,1337,234.7C1371.4,245,1406,171,1423,133.3L1440,96L1440,0L1422.9,0C1405.7,0,1371,0,1337,0C1302.9,0,1269,0,1234,0C1200,0,1166,0,1131,0C1097.1,0,1063,0,1029,0C994.3,0,960,0,926,0C891.4,0,857,0,823,0C788.6,0,754,0,720,0C685.7,0,651,0,617,0C582.9,0,549,0,514,0C480,0,446,0,411,0C377.1,0,343,0,309,0C274.3,0,240,0,206,0C171.4,0,137,0,103,0C68.6,0,34,0,17,0L0,0Z"></path>
+</svg>
+<footer class="footer">
+    <div class="container">
+        <div class="row align-items-center text-center text-lg-start">
+    <div class="col-12 col-lg-4 mb-3 mb-lg-0 text-decoration-none">
+           <span> © 2026 <strong> Miss Dinda</strong>. All Rights Reserved.</span>
+            </div>
+            <div class="col-12 col-lg-4 mb-3 mb-lg-0">
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link px-2" href="missdinda.html">Beranda</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link px-2" href="aboutme.html">Tentang Saya
+            </a></li>
+        <li class="nav-item">
+            <a class="nav-link px-2" href="aktifitas.html"><strong>Aktivitas</strong>
+            </a></li>
+                <li class="nav-item">
+                    <a class="nav-link px-2" href="kontak.html">Kontak
+                    </a></li>
+    </ul>    
+    </div>
+
+        <div class="col-12 col-lg-4">
+            <div class="d-flex justify-content-center justify-content-lg-end gap-3">
+       <a href="https://www.instagram.com/ddwimanda/" class="footer-icon"><i class="bi bi-instagram"></i></a>
+        <a href="https://wa.me/6285697508616" class="footer-icon"><i class="bi bi-whatsapp"></i></a>
+        </div>
+    </div>
+    </div>
+    </div>
+</footer>
+</div>
+</div>
+
+
+   
+     <script>
+        const overlay = document.getElementById("overlayMenu");
+        const hamburger = document.getElementById("hamburgerBtn");
+        const closeBtn = document.getElementById("closeOverlay");
+
+        hamburger.addEventListener("click", () => {
+            overlay.style.display = "flex";
+        });
+
+        closeBtn.addEventListener("click", () => {
+            overlay.style.display = "none";
+        });
+     </script>
+
+     <!-- untuk scroll kebawah transition -->
+      <script>
+        const scrollItems = document.querySelectorAll(".scroll-item");
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("show");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.2
+        });
+
+        scrollItems.forEach(item => observer.observe(item));
+      </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
+
+<!-- <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+    <path fill="#ffffff"
+        d="M0,64L60,80C120,96,240,128,360,122.7C480,117,600,75,720,64C840,53,960,75,1080,85.3C1200,96,1320,96,1380,96L1440,96L1440,0L0,0Z">
+    </path>
+</svg>
+ -->
